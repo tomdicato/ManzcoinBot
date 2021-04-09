@@ -24,7 +24,7 @@ def check_for_sales(api, delay, filename):
 
             nl = '\n'       
 
-            status_string = f"MANZ COIN SOLD!{nl}From: {seller}{nl}To: {buyer}{nl}For: {price}{nl}Feels cute might delete. #MANZCOIN"
+            status_string = f"MANZ COIN SOLD!{nl}From: {seller}{nl}To: {buyer}{nl}For: {price}{nl}#MANZCOIN"
         
             api.update_with_media(
                 filename = filename,
