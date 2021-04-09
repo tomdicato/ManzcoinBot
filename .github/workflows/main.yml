@@ -26,8 +26,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run ManzcoinBot
-        run: python -m manzcoinsell
-        working-directory: bots
+        run: python -m bots/manzcoinsell        
         
         env:
           CONSUMER_KEY: ${{ secrets.CONSUMER_KEY }}
