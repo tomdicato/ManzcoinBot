@@ -5,7 +5,7 @@ name: ManzTwitterBot
 # Controls when the action will run. 
 on:
   schedule:
-  - cron: "*/5 * * * *"
+  - cron: "*/20 * * * *"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:    
@@ -20,13 +20,16 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+          
       - uses: actions/setup-python@v2
         with:
-          python-version: "3.9.4"          
+          python-version: "3.9.4"                    
 
       # Runs a single command using the runners shell
       - name: Run ManzcoinBot
-        run: python run bots/manzcoinsell.py        
+        run: python bots/manzcoinsell.py        
         
         env:
           CONSUMER_KEY: ${{ secrets.CONSUMER_KEY }}
