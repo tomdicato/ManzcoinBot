@@ -1,5 +1,5 @@
 import logging
-from bots.config import create_api
+from config import create_api
 import time
 from get_collection import get_collection_sales
 import pandas as pd
