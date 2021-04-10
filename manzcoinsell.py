@@ -57,7 +57,7 @@ def check_for_sales(api, delay, filename):
 
                 nl = '\n'       
 
-                status_string = (f"MANZ COIN BID INCREASED!{nl}From: { bidder }{nl}For: "
+                status_string = (f"MANZCOIN NFTz BID INCREASED!{nl}From: { bidder }{nl}For: "
                 f"{ bid_amount } { symbol }{nl}{asset_permalink}{nl}#MANZCOIN")
 
                 api.update_with_media(
