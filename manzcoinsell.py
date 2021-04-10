@@ -8,7 +8,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
 def check_for_sales(api, delay, filename):
-    
+
     logger.info("Retreiving sales")
     
     manz_tranz = get_collection_sales(slug="manzcoin-nftz",event_type="successful",delay=delay)
@@ -38,12 +38,9 @@ def check_for_sales(api, delay, filename):
 
 def main():
     api = create_api()
-    delay = 300
-    filename = "data/ManzCoin.gif"
-    while True:
-        check_for_sales(api, delay, filename)
-        logger.info("Waiting...")
-        time.sleep(300)
+    delay = 330
+    filename = "data/ManzCoin.gif"    
+    check_for_sales(api, delay, filename)
 
 if __name__ == "__main__":
     main()
