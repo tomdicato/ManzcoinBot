@@ -8,14 +8,12 @@ import datetime
 def get_collection_sales(slug = "manzcoin-nftz", event_type = "successful", delay = 5):
     
     slug="manzcoin-nftz"
-    event_type="successful"
-    delay=delay
+    event_type=event_type
+    delay=delay  
 
     url="https://api.opensea.io/api/v1/events"
 
     collection_slug=slug
-
-    event_type=event_type    
     
     delay=int(delay)    
 
@@ -37,6 +35,8 @@ def get_collection_sales(slug = "manzcoin-nftz", event_type = "successful", dela
 
         df_asset=pd.DataFrame([flatten_json(x) for x in df['asset']])[['id','image_original_url','image_preview_url','image_thumbnail_url','name']]
 
+        df_asset.rename(columns={'name':'asset_name'},inplace=True)
+
         df_seller=pd.DataFrame([flatten_json(x) for x in df['seller']])[['user_username','profile_img_url']]
 
         df_seller.rename(columns={'user_username':'seller_username','profile_img_url':'seller_profile_img_url'},inplace=True)
@@ -53,7 +53,7 @@ def get_collection_sales(slug = "manzcoin-nftz", event_type = "successful", dela
 
         manz_tranz.sort_values(by=['timestamp'],ascending=False, inplace=True)
 
-        manz_tranz['total_price'] = manz_tranz['total_price'].apply(lambda x: int(x)*0.000000000000000001)
+        manz_tranz['total_price'] = manz_tranz['total_price'].apply(lambda x: int(x)*0.000000000000000001)        
 
         return manz_tranz
 
