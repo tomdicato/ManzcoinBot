@@ -1,5 +1,4 @@
 import logging
-
 from pandas.core.reshape.concat import concat
 from config import create_api
 import time
@@ -34,8 +33,6 @@ def check_for_sales(api, delay, filename):
 
                 status_string = f"{asset_name} SOLD!{nl}From: {seller}{nl}To: {buyer}{nl}For: {price}{nl}#MANZCOIN"
 
-                manz_tranz['transaction_id']
-
                 api.update_with_media(
                     filename = filename,
                     status = status_string
@@ -46,6 +43,7 @@ def check_for_sales(api, delay, filename):
     if manz_bidz is not None:
 
         manz_tranz_existing = pd.read_csv('manz_tranz_list.csv')
+        i=0
     
         for i in range(len(manz_bidz)):
 
@@ -54,10 +52,13 @@ def check_for_sales(api, delay, filename):
                 bid_amount=manz_bidz['bid_amount'][i]
                 bidder=manz_bidz['bidder_username'][i]
                 symbol=manz_bidz['symbol'][i]
+                asset_name=manz_bidz['asset_name'][i]
+                asset_permalink=manz_bidz['permalink'][i]
 
                 nl = '\n'       
 
-                status_string = f"MANZ COIN BID INCREASED!{nl}From: { bidder }{nl}For: { bid_amount } { symbol }{nl}#MANZCOIN"
+                status_string = (f"MANZ COIN BID INCREASED!{nl}From: { bidder }{nl}For: "
+                f"{ bid_amount } { symbol }{nl}{asset_permalink}{nl}#MANZCOIN")
 
                 api.update_with_media(
                     filename = filename,

@@ -11,7 +11,7 @@ def get_collection_bids(slug = "manzcoin-nftz", event_type = "bid_entered", dela
     event_type=event_type
     delay=delay
 
-    event_type="bid_entered"
+    # event_type="bid_entered"
     
     url="https://api.opensea.io/api/v1/events"
 
@@ -35,8 +35,10 @@ def get_collection_bids(slug = "manzcoin-nftz", event_type = "bid_entered", dela
         pass
     else:    
 
-        df_asset=pd.DataFrame([flatten_json(x) for x in df['asset']])[['id','image_original_url','image_preview_url','image_thumbnail_url','name']]
- 
+        df_asset=pd.DataFrame([flatten_json(x) for x in df['asset']])[['id','permalink','image_original_url','image_preview_url','image_thumbnail_url','name']]
+
+        df_asset.rename(columns={'name':'asset_name'},inplace=True)
+         
         df_bid_amount=pd.DataFrame(df['bid_amount'])
         
         df_bidder=pd.DataFrame([flatten_json(x) for x in df['from_account']])[['user_username']]
@@ -54,7 +56,7 @@ def get_collection_bids(slug = "manzcoin-nftz", event_type = "bid_entered", dela
         df_bid_token=pd.DataFrame([flatten_json(x) for x in df['payment_token']])[['symbol','name','decimals','eth_price','usd_price']]
         
         manz_bidz=pd.concat([df[['collection_slug','event_type']],df_id,
-        df_asset,df_bid_amount,df_bidder,df_created_date, df_bid_token], axis=1)
+        df_asset,df_bid_amount,df_bidder,df_created_date, df_bid_token], axis=1)        
 
         manz_bidz.sort_values(by=['timestamp'],ascending=False, inplace=True)
 
