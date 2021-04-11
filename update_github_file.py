@@ -1,15 +1,18 @@
 #Import required packages
 from github import Github
-gh_access_token = "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"
 import requests
+import os 
 
-def updatefilefromgithub(gh_access_token, new_tweets, repo_name='ManzcoinBot', git_file = 'manz_tranz_list.csv', repo_owner='tomdicato', branch='main'):
+gh_access_token=os.environ.get('MANZCOIN_GITHUB_TOKEN')
+
+def updatefilefromgithub(gh_access_token, new_tweets, repo_name='ManzcoinBot', git_file = 'manz_tranz_list.csv', repo_owner='tomdicato', branch='main',message="more tests"):
 
     g = Github(gh_access_token)
     repo_owner=str(repo_owner)
     repo_name = str(repo_name)
     branch = str(branch)
     git_file=str(git_file)
+    message=str(message)
 
     repo = g.get_user().get_repo(repo_name)
 
@@ -27,6 +30,6 @@ def updatefilefromgithub(gh_access_token, new_tweets, repo_name='ManzcoinBot', g
         s = f.read()
 
     repo = g.get_user().get_repo(repo_name)
-    contents = repo.get_contents('manz_tranz_list.csv')
+    contents = repo.get_contents('manz_tranz_list.csv')    
 
-    repo.update_file(contents.path, message="more tests", content=s, sha=contents.sha, branch=branch)
+    repo.update_file(contents.path, message=message, content=s, sha=contents.sha, branch=branch)

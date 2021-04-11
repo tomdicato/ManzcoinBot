@@ -22,7 +22,9 @@ def check_for_sales(api, delay, filename):
     if manz_tranz is not None:
 
         manz_tranz_existing = read_csv_from_github(repo_name='ManzcoinBot', git_file = 'manz_tranz_list.csv', repo_owner='tomdicato', branch='main')
-    
+
+        j=0
+
         for i in range(len(manz_tranz)):
 
             if manz_tranz['transaction_id'][i] not in manz_tranz_existing['transaction_id'].values:
@@ -41,14 +43,17 @@ def check_for_sales(api, delay, filename):
                     filename = filename,
                     status = status_string
                     )
+                j+=1
 
-        updatefilefromgithub(gh_access_token, repo_name='ManzcoinBot', 
-        git_file = 'manz_tranz_list.csv',repo_owner='tomdicato', branch='main', new_tweets=manz_tranz)
+        updatefilefromgithub(gh_access_token, repo_name='ManzcoinBot',
+            git_file = 'manz_tranz_list.csv',repo_owner='tomdicato', branch='main', new_tweets=manz_tranz, message=f"updated {j} transactions")
 
     if manz_bidz is not None:
 
         manz_tranz_existing = read_csv_from_github(repo_name='ManzcoinBot', git_file = 'manz_tranz_list.csv', repo_owner='tomdicato', branch='main')      
     
+        j=0
+
         for i in range(len(manz_bidz)):
 
             if manz_bidz['transaction_id'][i] not in manz_tranz_existing['transaction_id'].values:
@@ -68,8 +73,11 @@ def check_for_sales(api, delay, filename):
                     filename = filename,
                     status = status_string
                     )
-        updatefilefromgit(gh_access_token, repo_name='ManzcoinBot',
-            git_file = 'manz_tranz_list.csv',repo_owner='tomdicato', branch='main', new_tweets=manz_bidz)
+                
+                j+=1
+
+        updatefilefromgithub(gh_access_token, repo_name='ManzcoinBot',
+            git_file = 'manz_tranz_list.csv',repo_owner='tomdicato', branch='main', new_tweets=manz_bidz, message=f"updated {j} bids")
 
 def main():
     api = create_api()
