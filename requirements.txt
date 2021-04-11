@@ -9,3 +9,4 @@ python-editor==1.0.4
 requests==2.22.0
 tweepy==3.10.0
 virtualenv==20.4.3
+PyGithub==1.54.1
