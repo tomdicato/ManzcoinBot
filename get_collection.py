@@ -25,36 +25,36 @@ def get_collection_sales(slug = "manzcoin-nftz", event_type = "successful", dela
 
     response=requests.request("GET", url, params=querystring)
 
-    response_dict=json.loads(response.text)
+    if response.status_code=="200":
 
-    df = pd.DataFrame.from_dict(response_dict['asset_events'])
+        response_dict=json.loads(response.text)
 
-    if len(df.index)==0:
-        pass
-    else:    
+        df = pd.DataFrame.from_dict(response_dict['asset_events'])
 
-        df_asset=pd.DataFrame([flatten_json(x) for x in df['asset']])[['id','image_original_url','image_preview_url','image_thumbnail_url','name']]
+        if len(df.index)==0:
+            pass
+        else:    
 
-        df_asset.rename(columns={'name':'asset_name'},inplace=True)
+            df_asset=pd.DataFrame([flatten_json(x) for x in df['asset']])[['id','image_original_url','image_preview_url','image_thumbnail_url','name']]
+            df_asset.rename(columns={'name':'asset_name'},inplace=True)
 
-        df_seller=pd.DataFrame([flatten_json(x) for x in df['seller']])[['user_username','profile_img_url']]
+            df_seller=pd.DataFrame([flatten_json(x) for x in df['seller']])[['user_username','profile_img_url']]
+            df_seller.rename(columns={'user_username':'seller_username','profile_img_url':'seller_profile_img_url'},inplace=True)
 
-        df_seller.rename(columns={'user_username':'seller_username','profile_img_url':'seller_profile_img_url'},inplace=True)
+            df_buyer=pd.DataFrame([flatten_json(x) for x in df['winner_account']])[['user_username','profile_img_url']]
+            df_buyer.rename(columns={'user_username':'buyer_username','profile_img_url':'buyer_profile_img_url'},inplace=True)
 
-        df_buyer=pd.DataFrame([flatten_json(x) for x in df['winner_account']])[['user_username','profile_img_url']]
+            df_transaction=pd.DataFrame([flatten_json(x) for x in df['transaction']])[['timestamp','id']]
+            df_transaction.rename(columns={'id':'transaction_id'},inplace=True)
 
-        df_buyer.rename(columns={'user_username':'buyer_username','profile_img_url':'buyer_profile_img_url'},inplace=True)
+            df_token=df_transaction=pd.DataFrame([flatten_json(x) for x in df['payment_token']])[['symbol']]
 
-        df_transaction=pd.DataFrame([flatten_json(x) for x in df['transaction']])[['timestamp','id']]
-        
-        df_transaction.rename(columns={'id':'transaction_id'},inplace=True) 
+            manz_tranz=pd.concat([df[['collection_slug','event_type','total_price']],df_token,df_asset,df_buyer,df_seller, df_transaction], axis=1)                    
 
-        manz_tranz=pd.concat([df[['collection_slug','event_type','total_price']],df_asset,df_buyer,df_seller, df_transaction], axis=1)        
+            manz_tranz.sort_values(by=['timestamp'],ascending=False, inplace=True)            
 
-        manz_tranz.sort_values(by=['timestamp'],ascending=False, inplace=True)
+            manz_tranz['total_price'] = manz_tranz['total_price'].apply(lambda x: int(x)*0.000000000000000001)        
 
-        manz_tranz['total_price'] = manz_tranz['total_price'].apply(lambda x: int(x)*0.000000000000000001)        
-
-        return manz_tranz
+            return manz_tranz
 
 # manz_tranz = get_collection_sales(slug="manzcoin-nftz",event_type="successful",delay=5)

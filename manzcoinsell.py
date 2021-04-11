@@ -1,10 +1,12 @@
 import logging
-from pandas.core.reshape.concat import concat
 from config import create_api
-import time
+from update_github_file import updatefilefromgithub
 from get_collection import get_collection_sales
 from get_collection_bids import get_collection_bids
+from read_github_csv import read_csv_from_github
 import pandas as pd
+
+gh_access_token="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"
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
@@ -14,11 +16,12 @@ def check_for_sales(api, delay, filename):
     logger.info("Retreiving sales")
     
     manz_tranz = get_collection_sales(slug="manzcoin-nftz",event_type="successful",delay=delay)
+
     manz_bidz = get_collection_bids(slug = "manzcoin-nftz", event_type="bid_entered", delay=delay)
 
     if manz_tranz is not None:
 
-        manz_tranz_existing = pd.read_csv('manz_tranz_list.csv')
+        manz_tranz_existing = read_csv_from_github(repo_name='ManzcoinBot', git_file = 'manz_tranz_list.csv', repo_owner='tomdicato', branch='main')
     
         for i in range(len(manz_tranz)):
 
@@ -28,22 +31,23 @@ def check_for_sales(api, delay, filename):
                 seller = manz_tranz['seller_username'][i]
                 buyer = manz_tranz['buyer_username'][i]
                 asset_name=manz_tranz['asset_name'][i]
+                symbol=manz_tranz['symbol'][i]            
 
                 nl = '\n'       
 
-                status_string = f"{asset_name} SOLD!{nl}From: {seller}{nl}To: {buyer}{nl}For: {price}{nl}#MANZCOIN"
+                status_string = f"{asset_name} SOLD!{nl}From: {seller}{nl}To: {buyer}{nl}For: {price} {symbol}{nl}#MANZCOIN"
 
                 api.update_with_media(
                     filename = filename,
                     status = status_string
                     )
 
-                manz_tranz[['transaction_id','timestamp']].head(i+1).to_csv('manz_tranz_list.csv', mode='a', index=False, header=False)
+        updatefilefromgithub(gh_access_token, repo_name='ManzcoinBot', 
+        git_file = 'manz_tranz_list.csv',repo_owner='tomdicato', branch='main', new_tweets=manz_tranz)
 
     if manz_bidz is not None:
 
-        manz_tranz_existing = pd.read_csv('manz_tranz_list.csv')
-        i=0
+        manz_tranz_existing = read_csv_from_github(repo_name='ManzcoinBot', git_file = 'manz_tranz_list.csv', repo_owner='tomdicato', branch='main')      
     
         for i in range(len(manz_bidz)):
 
@@ -64,8 +68,8 @@ def check_for_sales(api, delay, filename):
                     filename = filename,
                     status = status_string
                     )
-
-                manz_bidz[['transaction_id','timestamp']].head(i+1).to_csv('manz_tranz_list.csv', mode='a', index=False, header=False)
+        updatefilefromgit(gh_access_token, repo_name='ManzcoinBot',
+            git_file = 'manz_tranz_list.csv',repo_owner='tomdicato', branch='main', new_tweets=manz_bidz)
 
 def main():
     api = create_api()
