@@ -4,9 +4,9 @@ from update_github_file import updatefilefromgithub
 from get_collection import get_collection_sales
 from get_collection_bids import get_collection_bids
 from read_github_csv import read_csv_from_github
-import pandas as pd
+import os 
 
-gh_access_token="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"
+gh_access_token=os.environ.get('MANZCOIN_GITHUB_TOKEN')
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
