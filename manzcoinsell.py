@@ -29,20 +29,21 @@ def check_for_sales(api, delay, filename):
 
             if manz_tranz['transaction_id'][i] not in manz_tranz_existing['transaction_id'].values:
             
-                price = manz_tranz['total_price'][i]
-                seller = manz_tranz['seller_username'][i]
-                buyer = manz_tranz['buyer_username'][i]
+                price=manz_tranz['total_price'][i]
+                seller=manz_tranz['seller_username'][i]
+                buyer=manz_tranz['buyer_username'][i]
                 asset_name=manz_tranz['asset_name'][i]
                 symbol=manz_tranz['symbol'][i]            
 
-                nl = '\n'       
+                nl='\n'     
 
-                status_string = f"{asset_name} SOLD!{nl}From: {seller}{nl}To: {buyer}{nl}For: {price} {symbol}{nl}#MANZCOIN"
+                status_string=f"{asset_name} SOLD!{nl}From: {seller}{nl}To: {buyer}{nl}For: {price} {symbol}{nl}#MANZCOIN"
 
                 api.update_with_media(
-                    filename = filename,
-                    status = status_string
+                    filename=filename,
+                    status=status_string
                     )
+
                 j+=1
 
         updatefilefromgithub(gh_access_token, repo_name='ManzcoinBot',

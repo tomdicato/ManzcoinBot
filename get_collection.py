@@ -49,11 +49,11 @@ def get_collection_sales(slug = "manzcoin-nftz", event_type = "successful", dela
 
             df_token=df_transaction=pd.DataFrame([flatten_json(x) for x in df['payment_token']])[['symbol']]
 
-            manz_tranz=pd.concat([df[['collection_slug','event_type','total_price']],df_token,df_asset,df_buyer,df_seller, df_transaction], axis=1)                    
+            df_total_price=df['total_price'].apply(lambda x: int(x)*0.000000000000000001)
+
+            manz_tranz=pd.concat([df[['collection_slug','event_type']],df_total_price,df_token,df_asset,df_buyer,df_seller, df_transaction], axis=1)                    
 
             manz_tranz.sort_values(by=['timestamp'],ascending=False, inplace=True)            
-
-            manz_tranz['total_price'] = manz_tranz['total_price'].apply(lambda x: int(x)*0.000000000000000001)        
 
             return manz_tranz
 

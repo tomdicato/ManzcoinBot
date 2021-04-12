@@ -9,8 +9,7 @@ def get_collection_bids(slug="manzcoin-nftz", event_type="bid_entered", delay = 
     
     slug="manzcoin-nftz"
     event_type=event_type
-    delay=delay
-
+    
     # event_type="bid_entered"
     
     url="https://api.opensea.io/api/v1/events"
