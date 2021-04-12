@@ -40,7 +40,7 @@ jobs:
       # Runs a single command using the runners shell
       - name: Install requirements
         run: |
-          pip install --upgrade --upgrade-strategy eager -r dev-requirements.txt -e
+          pip install --upgrade --upgrade-strategy eager -r dev-requirements.txt -e .
         
         env:
           CONSUMER_KEY: ${{ secrets.CONSUMER_KEY }}
