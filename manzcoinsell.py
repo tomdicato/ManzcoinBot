@@ -82,7 +82,7 @@ def check_for_sales(api, delay, filename):
 
 def main():
     api = create_api()
-    delay = 330
+    delay = 800
     filename = "data/ManzCoin.gif"    
     check_for_sales(api, delay, filename)
 
