@@ -41,8 +41,8 @@ def get_collection_bids(slug="manzcoin-nftz", event_type="bid_entered", delay = 
 
             df_bid_amount=pd.DataFrame(df['bid_amount'])
 
-            df_bidder=pd.DataFrame([flatten_json(x) for x in df['from_account']])[['user_username']]
-            df_bidder.rename(columns={'user_username':'bidder_username'},inplace=True)
+            df_bidder=pd.DataFrame([flatten_json(x) for x in df['from_account']])[['user']]
+            df_bidder.rename(columns={'user_':'bidder_username'},inplace=True)
 
             df_created_date=pd.DataFrame(df['created_date'])
 
