@@ -40,7 +40,7 @@ jobs:
           pip install -r requirements.txt
       - name: Run ManzCoinSell
         run: |
-          ./manzcoinsell.py
+          manzcoinsell
         
         env:
           CONSUMER_KEY: ${{ secrets.CONSUMER_KEY }}
