@@ -1,3 +1,4 @@
+from numpy import NaN
 import requests
 import json
 import pandas as pd
@@ -5,13 +6,13 @@ from flatten_json import flatten_json
 import datetime
 
 # get list of events by collection
-def get_collection_sales(slug = "manzcoin-nftz", event_type = "successful", delay = 5):
+def get_collection_sales(slug = "manzcoin-nftz", event_type="successful", delay = 400):
     
-    slug="manzcoin-nftz"
-    event_type=event_type
-    delay=delay  
-
     url="https://api.opensea.io/api/v1/events"
+
+    slug="manzcoin-nftz"
+    event_type="successful"
+    delay=8000
 
     collection_slug=slug
     
@@ -25,22 +26,20 @@ def get_collection_sales(slug = "manzcoin-nftz", event_type = "successful", dela
 
     response=requests.request("GET", url, params=querystring)
 
-    if response.status_code=="200":
+    if str(response.status_code)=="200":
 
         response_dict=json.loads(response.text)
 
         df = pd.DataFrame.from_dict(response_dict['asset_events'])
 
-        if len(df.index)==0:
-            pass
-        else:    
+        if len(df.index)>0:
 
             df_asset=pd.DataFrame([flatten_json(x) for x in df['asset']])[['id','image_original_url','image_preview_url','image_thumbnail_url','name']]
             df_asset.rename(columns={'name':'asset_name'},inplace=True)
 
             df_seller=pd.DataFrame([flatten_json(x) for x in df['seller']])[['user_username','profile_img_url']]
             df_seller.rename(columns={'user_username':'seller_username','profile_img_url':'seller_profile_img_url'},inplace=True)
-
+            
             df_buyer=pd.DataFrame([flatten_json(x) for x in df['winner_account']])[['user_username','profile_img_url']]
             df_buyer.rename(columns={'user_username':'buyer_username','profile_img_url':'buyer_profile_img_url'},inplace=True)
 
@@ -56,5 +55,11 @@ def get_collection_sales(slug = "manzcoin-nftz", event_type = "successful", dela
             manz_tranz.sort_values(by=['timestamp'],ascending=False, inplace=True)            
 
             return manz_tranz
+            
+        else:
+            return "No data returned"
 
-# manz_tranz = get_collection_sales(slug="manzcoin-nftz",event_type="successful",delay=5)
+    else:
+        return f"Oops! response status code:{ response.status_code })"
+
+manz_tranz = get_collection_sales(slug="manzcoin-nftz",event_type="successful",delay=8000)

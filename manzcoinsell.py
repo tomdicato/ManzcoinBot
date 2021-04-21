@@ -1,7 +1,7 @@
 import logging
 from config import create_api
 from update_github_file import updatefilefromgithub
-from get_collection import get_collection_sales
+from get_collection_sales import get_collection_sales
 from get_collection_bids import get_collection_bids
 from read_github_csv import read_csv_from_github
 import os 
@@ -18,6 +18,7 @@ def check_for_sales(api, delay, filename):
     manz_tranz = get_collection_sales(slug="manzcoin-nftz",event_type="successful",delay=delay)
 
     manz_bidz = get_collection_bids(slug = "manzcoin-nftz", event_type="bid_entered", delay=delay)
+    get_collection_bids(slug="manzcoin-nftz", event_type="bid_entered", delay = 600)    
 
     if manz_tranz is not None:
 
@@ -82,9 +83,11 @@ def check_for_sales(api, delay, filename):
 
 def main():
     api = create_api()
-    delay = 800
+    delay = 8000
     filename = "data/ManzCoin.gif"    
     check_for_sales(api, delay, filename)
 
 if __name__ == "__main__":
     main()
+
+    
