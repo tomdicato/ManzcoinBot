@@ -44,15 +44,15 @@ def get_collection_sales(slug = "manzcoin-nftz", event_type="successful", delay 
             df_buyer.rename(columns={'user_username':'buyer_username','profile_img_url':'buyer_profile_img_url'},inplace=True)
 
             df_transaction=pd.DataFrame([flatten_json(x) for x in df['transaction']])[['timestamp','id']]
-            df_transaction.rename(columns={'id':'transaction_id'},inplace=True)
+            df_transaction.rename(columns={'id':'transaction_id'},inplace=True)            
 
-            df_token=df_transaction=pd.DataFrame([flatten_json(x) for x in df['payment_token']])[['symbol']]
+            df_token=pd.DataFrame([flatten_json(x) for x in df['payment_token']])[['symbol']]
 
             df_total_price=df['total_price'].apply(lambda x: int(x)*0.000000000000000001)
 
-            manz_tranz=pd.concat([df[['collection_slug','event_type']],df_total_price,df_token,df_asset,df_buyer,df_seller, df_transaction], axis=1)                    
-
-            manz_tranz.sort_values(by=['timestamp'],ascending=False, inplace=True)            
+            manz_tranz=pd.concat([df[['collection_slug','event_type']],df_total_price,df_token,df_asset,df_buyer,df_seller,df_transaction], axis=1)
+                        
+            manz_tranz.sort_values(by=['timestamp'],ascending=False, inplace=True)
 
             return manz_tranz
             
