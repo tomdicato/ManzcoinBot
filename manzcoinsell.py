@@ -17,8 +17,6 @@ def check_for_sales(api, delay, filename):
 
     logger.info("Retreiving sales")    
     
-    delay=8000
-
     manz_tranz = get_collection_sales(slug="manzcoin-nftz",event_type="successful",delay=delay)
 
     manz_bidz = get_collection_bids(slug = "manzcoin-nftz", event_type="bid_entered", delay=delay)    
@@ -90,6 +88,4 @@ def main():
     check_for_sales(api, delay, filename)
 
 if __name__ == "__main__":
-    main()
-
-    
+    main()    
