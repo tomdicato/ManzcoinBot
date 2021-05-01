@@ -48,7 +48,7 @@ def check_for_sales(api, delay, filename):
         j+=1
 
         updatefilefromgithub(gh_access_token, repo_name='ManzcoinBot',
-            git_file = 'manz_tranz_list.csv',repo_owner='tomdicato', branch='main', new_tweets=manz_tranz, message=f"updated {j} transactions")
+            git_file = 'manz_tranz_list.csv', repo_owner='tomdicato', branch='main', new_tweets=manz_tranz_filter, message=f"updated {j} transactions")
 
     # if manz_bidz is not None:
 
@@ -88,4 +88,4 @@ def main():
     check_for_sales(api, delay, filename)
 
 if __name__ == "__main__":
-    main()    
+    main()
