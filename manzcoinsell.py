@@ -32,11 +32,12 @@ def check_for_sales(api, delay, filename):
 
         j=0
 
-        manz_tranz_filter['status_string']=manz_tranz_filter['asset_name'].astype(str)+' SOLD!\n'\
+        manz_tranz_filter['status_string']=manz_tranz_filter['asset_name'].astype(str)+' NFTz SOLD!\n'\
         'From: '+ manz_tranz_filter['seller_username'].astype(str) + '\n'\
         'To: ' + manz_tranz_filter['buyer_username'].astype(str)+'\n'\
         'For: ' + manz_tranz_filter['total_price'].astype(str) + ' ' + manz_tranz_filter['symbol'].astype(str) + '\n'\
-        '#MANZCOIN'
+        '#MANZCOIN' + '\n'\
+        'https://opensea.io/collection/manzcoin-nftz'
 
         manz_tranz_filter.apply(lambda x: api.update_with_media(filename=filename,status=x.status_string), axis=1)
 
