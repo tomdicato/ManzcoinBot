@@ -15,7 +15,6 @@ gh_access_token = os.environ.get("MANZCOIN_GITHUB_TOKEN")
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
-
 def check_for_sales(api, delay, filename):
 
     logger.info("Retreiving sales")
