@@ -1,4 +1,6 @@
 import logging
+
+from pandas.core.frame import DataFrame
 from config import create_api
 from update_github_file import updatefilefromgithub
 from get_collection_sales import get_collection_sales
@@ -24,7 +26,7 @@ def check_for_sales(api, delay, filename):
 
     # manz_bidz = get_collection_bids(slug = "manzcoin-nftz", event_type="bid_entered", delay=delay)
 
-    if manz_tranz != "No data returned":
+    if isinstance(manz_tranz, pd.DataFrame):
 
         manz_tranz_existing = read_csv_from_github(
             repo_name="ManzcoinBot",
